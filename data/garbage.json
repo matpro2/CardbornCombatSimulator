@@ -1,0 +1,154 @@
+{
+    "behemoth": {
+    "name": "Behemoth",
+    "rng": 80000000,
+    "tags": ["monster", "beast"],
+    "abilities": [
+      {
+        "trigger": { "event": "entry", "phase": "start", "actor": "self" },
+        "action": {
+          "type": "modify",
+          "property": "stat",
+          "stats": ["damage", "health"],
+          "target": { "side": "self", "select": "this" },
+          "op": "multiply",
+          "value": 1.50
+        }
+      }
+    ]
+  },
+    "sun_sprite": {
+    "name": "Sun Sprite",
+    "rng": 2000000,
+    "tags": ["elemental", "fairy"],
+    "abilities": [
+      {
+        "trigger": { "event": "turn", "phase": "start", "actor": "self" },
+        "action": {
+          "type": "modify",
+          "property": "stat",
+          "stats": ["health"],
+          "target": { "side": "ally", "select": "all" },
+          "op": "multiply",
+          "value": 1.07
+        }
+      },
+      {
+        "trigger": { "event": "turn", "phase": "start", "actor": "self" },
+        "action": {
+          "type": "damage",
+          "damage_type": "burn",
+          "target": { "side": "enemy", "select": "all" },
+          "value": { "stat": "health", "source": "target", "mult": 0.07 }
+        }
+      }
+    ]
+  }, "abomination": {
+    "name": "Abomination",
+    "rng": 11100000,
+    "stat_mult": 6.292,
+    "tags": ["cosmic", "eldritch"],
+    "abilities": [
+      {
+        "trigger": { "event": "battle", "phase": "start" },
+        "action": {
+          "type": "modify",
+          "property": "stat",
+          "stats": ["damage"],
+          "target": { "side": "self", "select": "this" },
+          "op": "multiply",
+          "value": 3.0
+        }
+      },
+      {
+        "trigger": { "event": "turn", "phase": "start", "actor": "self" },
+        "action": {
+          "type": "modify",
+          "property": "stat",
+          "stats": ["damage"],
+          "target": { "side": "self", "select": "this" },
+          "op": "multiply",
+          "value": 0.75
+        }
+      }
+    ]
+  },
+  "king_of_yellow": {
+    "name": "King of Yellow",
+    "rng": 5000000000,
+    "tags": ["eldritch", "mage"],
+    "abilities": [
+      {
+        "trigger": { "event": "turn", "phase": "start", "actor": "self" },
+        "action": {
+          "type": "modify",
+          "property": "stat",
+          "stats": ["damage", "health"],
+          "target": { "side": "self", "select": "this" },
+          "op": "multiply",
+          "value": 1.15
+        }
+      }
+    ]
+  },
+  "spiderling": {
+    "name": "Spiderling",
+    "rng": 20000,
+    "tags": ["beast", "spider"],
+    "abilities": [
+      {
+        "trigger": { "event": "attack", "phase": "before", "actor": "opponent" },
+        "conditions": [
+          { "type": "chance", "value": 0.20 }
+        ],
+        "action": {
+          "type": "cancel",
+          "target": { "side": "event", "select": "attack" },
+          "follow_up": {
+            "type": "modify",
+            "property": "stat",
+            "stats": ["health"],
+            "target": { "side": "self", "select": "this" },
+            "op": "add",
+            "value": { "stat": "max_health", "source": "self", "mult": 0.10 }
+          }
+        }
+      }
+    ]
+  },
+    "lich": {
+    "name": "Lich",
+    "rng": 10000,
+    "tags": ["undead", "mage"],
+    "abilities": [
+      {
+        "trigger": { "event": "attack", "phase": "after", "actor": "self" },
+        "action": {
+          "type": "modify",
+          "property": "stat",
+          "stats": ["damage"],
+          "target": { "side": "event", "select": "defender" },
+          "op": "multiply",
+          "value": 0.90
+        }
+      }
+    ]
+  },
+"berserker": {
+    "name": "Berserker",
+    "rng": 6000,
+    "tags": ["warrior", "human"],
+    "abilities": [
+      {
+        "trigger": { "event": "turn", "phase": "attack", "actor": "self" },
+        "action": {
+          "type": "modify",
+          "property": "turn_attacks",
+          "target": { "side": "self", "select": "this" },
+          "op": "set",
+          "value": 2
+        }
+      }
+    ]
+  }
+}

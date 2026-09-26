@@ -1,0 +1,189 @@
+{
+  "knight_commander": {
+    "name": "Knight Commander",
+    "rng": 40000,
+    "tags": ["knight"],
+    "abilities": [
+      {
+        "trigger": { "event": "battle", "phase": "start" },
+        "action": {
+          "type": "modify",
+          "property": "stat",
+          "stats": ["damage", "health"],
+          "target": { "side": "self", "select": "this" },
+          "op": "multiply",
+          "scaling": {
+            "source": { "side": "ally", "select": "all", "exclude_self": true },
+            "match_tags": ["knight", "paladin"],
+            "mult_per_match": 0.10
+          }
+        }
+      }
+    ]
+  },
+  "king_prismalith": {
+    "name": "King Prismalith",
+    "rng": 1250000,
+    "tags": ["elemental"],
+    "abilities": [
+      {
+        "trigger": { "event": "turn", "phase": "start", "actor": "self" },
+        "conditions": [
+          { "type": "turn_interval", "interval": 2 }
+        ],
+        "action": {
+          "type": "apply_status",
+          "status": "stun",
+          "duration_turns": 1,
+          "target": { "side": "enemy", "select": "random_alive" },
+          "follow_up": {
+            "type": "damage",
+            "target": { "side": "event", "select": "target" },
+            "value": { "stat": "max_health", "source": "target", "mult": 0.15 }
+          }
+        }
+      }
+    ]
+  },
+  "tax_collector": {
+    "name": "Tax Collector",
+    "stat_mult": 1.5,
+    "rng": 500000,
+    "tags": ["human"],
+    "abilities": [
+      {
+        "trigger": { "event": "entry", "phase": "start", "actor": "self" },
+        "action": {
+          "type": "drain_stat",
+          "property": "stat",
+          "stats": ["damage"],
+          "ratio": 0.12,
+          "target": { "side": "enemy", "select": "all" },
+          "distribute": {
+            "target": { "side": "ally", "select": "all" },
+            "mode": "even"
+          }
+        }
+      }
+    ]
+  },
+  "specter": {
+    "name": "Specter",
+    "rng": 18000000,
+    "stat_mult": 4.5,
+    "tags": ["undead"],
+    "abilities": [
+      {
+        "trigger": { "event": "damage", "phase": "before", "actor": "opponent" },
+        "conditions": [
+          { "type": "state", "target": { "side": "self", "select": "this" }, "is": "alive" }
+        ],
+        "action": {
+          "type": "modify",
+          "property": "outgoing_damage",
+          "target": { "side": "event", "select": "attacker" },
+          "op": "multiply",
+          "value": 0.85
+        }
+      },
+      {
+        "trigger": { "event": "turn", "phase": "start", "actor": "ally" },
+        "conditions": [
+          { "type": "state", "target": { "side": "self", "select": "this" }, "is": "alive" }
+        ],
+        "action": {
+          "type": "heal",
+          "target": { "side": "ally", "select": "all" },
+          "value": { "stat": "max_health", "source": "target", "mult": 0.05 }
+        }
+      }
+    ]
+  },
+ "dragon_broodmother": {
+    "name": "Dragon Broodmother",
+    "rng": 32500000,
+    "stat_mult": 3,
+    "tags": ["dragon", "beast"],
+    "abilities": [
+      {
+        "trigger": { "event": "death", "phase": "after", "actor": "self" },
+        "action": {
+          "type": "modify",
+          "property": "stat",
+          "stats": ["damage"],
+          "target": { "side": "ally", "select": "all", "match_tag": "dragon" },
+          "op": "multiply",
+          "value": 1.40
+        }
+      }
+    ]
+  },
+  "paradox_creator": {
+    "name": "Paradox Creator",
+    "rng": 42000000,
+    "stat_mult": 6.212,
+    "tags": ["cosmic", "mage"],
+    "abilities": [
+      {
+        "trigger": { "event": "entry", "phase": "start", "actor": "self" },
+        "action": {
+          "type": "swap",
+          "property": "stat",
+          "stats": ["damage", "health"],
+          "target": { "side": "self", "select": "this" }
+        }
+      },
+      {
+        "trigger": { "event": "damage", "phase": "before", "actor": "self" },
+        "action": {
+          "type": "modify",
+          "property": "incoming_damage",
+          "target": { "side": "self", "select": "this" },
+          "op": "subtract",
+          "value": { "stat": "damage", "source": "self", "mult": 0.30 }
+        }
+      }
+    ]
+  },
+  "theodora": {
+    "name": "Theodora, Empress of Resolve",
+    "rng": 38000000,
+    "stat_mult": 9.167,
+    "tags": ["human", "leader"],
+    "abilities": [
+      {
+        "trigger": { "event": "entry", "phase": "start", "actor": "self" },
+        "action": {
+          "type": "modify",
+          "property": "stat",
+          "stats": ["health"],
+          "target": { "side": "ally", "select": "all" },
+          "op": "multiply",
+          "value": 1.10
+        }
+      },
+      {
+        "trigger": { "event": "damage", "phase": "before", "actor": "team" },
+        "conditions": [
+          { "type": "state", "target": { "side": "self", "select": "this" }, "is": "alive" },
+          { "type": "first_attack_received" }
+        ],
+        "action": {
+          "type": "modify",
+          "property": "incoming_damage",
+          "target": { "side": "event", "select": "victim" },
+          "op": "multiply",
+          "value": 0.55,
+          "follow_up": {
+            "type": "modify",
+            "property": "stat",
+            "stats": ["damage", "health"],
+            "target": { "side": "self", "select": "this" },
+            "op": "multiply",
+            "value": 1.12
+          }
+        }
+      }
+    ]
+  }
+}

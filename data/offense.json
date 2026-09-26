@@ -1,0 +1,88 @@
+{
+  "spear_goblin": {
+    "name": "Spear Goblin",
+    "rng": 650,
+    "tags": ["goblin"],
+    "abilities": [
+      {
+        "trigger": { "event": "turn", "phase": "start", "actor": "ally", "filter": "first" },
+        "conditions": [
+          { "type": "state", "target": { "side": "self", "select": "this" }, "is": "alive" }
+        ],
+        "action": {
+          "type": "damage",
+          "target": { "side": "enemy", "select": "active" },
+          "value": { "stat": "damage", "source": "self", "mult": 0.20 }
+        }
+      }
+    ]
+  },
+  "black_widow": {
+    "name": "Black Widow",
+    "rng": 58500,
+    "tags": ["beast", "spider"],
+    "abilities": [
+      {
+        "trigger": { "event": "entry", "phase": "start", "actor": "self" },
+        "action": {
+          "type": "damage",
+          "target": { "side": "enemy", "select": "active" },
+          "value": {
+            "stat": "damage",
+            "source": "self",
+            "mult": 0.70,
+            "bonus_if": {
+              "condition": { "type": "threshold", "target": { "side": "event", "select": "target" }, "stat": "health_pct", "op": "below", "value": 0.50 },
+              "mult": 0.70
+            }
+          }
+        }
+      }
+    ],
+    "fabled_upgrade": {
+      "modify": {
+        "0": {
+          "action": {
+            "value": { "mult": 1.00 }
+          }
+        }
+      },
+      "add": [
+        {
+          "trigger": { "event": "entry", "phase": "start", "actor": "self" },
+          "action": {
+            "type": "damage",
+            "target": { "side": "enemy", "select": "lowest_health" },
+            "value": { "stat": "damage", "source": "self", "mult": 0.60 }
+          }
+        }
+      ]
+    }
+  },
+  "cosmic_dragon": {
+    "name": "Cosmic Dragon",
+    "rng": 900000000,
+    "tags": ["cosmic", "dragon"],
+    "abilities": [
+      {
+        "trigger": { "event": "entry", "phase": "start", "actor": "self" },
+        "action": {
+          "type": "damage",
+          "target": { "side": "enemy", "select": "all" },
+          "value": { "stat": "damage", "source": "self", "mult": 0.15 }
+        }
+      },
+      {
+        "trigger": { "event": "death", "phase": "after", "actor": "opponent", "killer": "self" },
+        "action": {
+          "type": "modify",
+          "property": "stat",
+          "stats": ["damage"],
+          "target": { "side": "self", "select": "this" },
+          "op": "multiply",
+          "value": 1.30
+        }
+      }
+    ]
+  }
+}

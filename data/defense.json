@@ -1,0 +1,155 @@
+{
+  "necromancer": {
+    "name": "Necromancer",
+    "rng": 2000,
+    "tags": ["undead", "mage"],
+    "abilities": [
+      {
+        "trigger": { "event": "death", "phase": "after", "actor": "self" },
+        "conditions": [
+          { "type": "state", "target": { "side": "ally", "select": "all", "exclude_self": true }, "is": "dead" }
+        ],
+        "action": {
+          "type": "revive",
+          "target": { "side": "ally", "select": "random_dead", "exclude_self": true },
+          "value": { "stat": "max_health", "source": "target", "mult": 0.20 }
+        }
+      }
+    ],
+    "fabled_upgrade": {
+      "modify": {
+        "0": {
+          "action": {
+            "value": { "mult": 0.25 },
+            "follow_up": {
+              "type": "shield",
+              "shield_id": "bone_barrier",
+              "duration_turns": 1,
+              "target": { "side": "event", "select": "target" },
+              "value": { "stat": "max_health", "source": "target", "mult": 0.25 }
+            }
+          }
+        }
+      }
+    }
+  },
+  "gleamstone_golem": {
+    "name": "Gleamstone Golem",
+    "rng": 380000,
+    "tags": ["golem", "elemental"],
+    "abilities": [
+      {
+        "trigger": { "event": "battle", "phase": "start" },
+        "action": {
+          "type": "barrier",
+          "barrier_id": "gemstone_fortress",
+          "duration_turns": 1,
+          "absorb": "all",
+          "target": { "side": "ally", "select": "first" }
+        }
+      }
+    ]
+  },
+  "shardsprite": {
+    "name": "Shardsprite",
+    "rng": 295000,
+    "tags": ["elemental", "fairy"],
+    "abilities": [
+      {
+        "trigger": { "event": "damage", "phase": "after", "actor": "self" },
+        "action": {
+          "type": "damage",
+          "damage_type": "reflected",
+          "target": { "side": "event", "select": "attacker" },
+          "value": { "source": "event_damage", "mult": 0.30 }
+        }
+      }
+    ]
+  },
+  "the_last_mammoth": {
+    "name": "The Last Mammoth",
+    "rng": 8500000,
+    "stat_mult": 9.167,
+    "tags": ["beast"],
+    "abilities": [
+      {
+        "trigger": { "event": "battle", "phase": "start" },
+        "action": {
+          "type": "modify",
+          "property": "stat",
+          "stats": ["health"],
+          "target": { "side": "self", "select": "this" },
+          "op": "multiply",
+          "value": 1.40
+        }
+      },
+      {
+        "trigger": { "event": "damage", "phase": "after", "actor": "ally", "relative_position": "immediate_before" },
+        "conditions": [
+          { "type": "state", "target": { "side": "self", "select": "this" }, "is": "alive" }
+        ],
+        "action": {
+          "type": "intercept",
+          "property": "damage",
+          "target": { "side": "self", "select": "this" },
+          "ratio": 0.50
+        }
+      },
+      {
+        "trigger": { "event": "death", "phase": "start", "actor": "self" },
+        "max_uses": 1,
+        "action": {
+          "type": "revive",
+          "target": { "side": "self", "select": "this" },
+          "value": { "stat": "max_health", "source": "self", "mult": 0.40 }
+        }
+      }
+    ]
+  },
+  "solar_paladin": {
+    "name": "Solar Paladin",
+    "rng": 9000000,
+    "stat_mult": 2.40,
+    "tags": ["paladin", "human"],
+    "abilities": [
+      {
+        "trigger": { "event": "battle", "phase": "start" },
+        "action": {
+          "type": "shield",
+          "shield_id": "solar_ward",
+          "target": { "side": "ally", "select": "all" },
+          "value": { "stat": "health", "source": "target", "mult": 0.25 }
+        }
+      },
+      {
+        "trigger": { "event": "shield_break", "actor": "self_shield", "shield_id": "solar_ward" },
+        "action": {
+          "type": "damage",
+          "damage_type": "burn",
+          "target": { "side": "event", "select": "attacker" },
+          "value": { "stat": "max_health", "source": "target", "mult": 0.10 }
+        }
+      }
+    ]
+  },
+  "revenant": {
+    "name": "Revenant",
+    "rng": 50000000,
+    "stat_mult": 4.6667,
+    "tags": ["undead"],
+    "abilities": [
+      {
+        "trigger": { "event": "death", "phase": "after", "actor": "ally" },
+        "conditions": [
+          { "type": "state", "target": { "side": "self", "select": "this" }, "is": "dead" },
+          { "type": "chance", "value": 0.35 }
+        ],
+        "action": {
+          "type": "revive",
+          "target": { "side": "self", "select": "this" },
+          "value": { "stat": "max_health", "source": "self", "mult": 0.50 }
+        }
+      }
+    ]
+  }
+}
